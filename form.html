@@ -1,70 +1,38 @@
+<div id="lightningLocator"></div>
+
 <script>
     const loadSFScriptTimeout = setTimeout(loadSFScript, 1000);
+
     function loadSFScript() {
         clearTimeout(loadSFScriptTimeout);
-        const hostname = window.location.hostname.toLowerCase();
-        //let src = "https://dohertyclinicaltrials--uat.sandbox.my.salesforce-sites.com/lightning/lightning.out.js";
-        
-        let src = "https://dohertyclinicaltrials--uat.sandbox.my.salesforce-sites.com/lightning/lightning.out.js";
-        
-        var sfs = document.createElement("script");
-        sfs.setAttribute("src", src);
+        const src = "https://dohertyclinicaltrials--uat.sandbox.my.salesforce-sites.com/lightning/lightning.out.js";
+        const sfs = document.createElement("script");
+        sfs.src = src;
         document.body.appendChild(sfs);
-    }    
-  </script>
-  
-  <script>
+    }
+</script>
+
+<script>
     const urlParams = new URLSearchParams(window.location.search);
-    const flowName = "SF_Recruitment_Forms"; 
-    
-    
+    const flowName = "SF_Recruitment_Forms";
+
     if (flowName) {
         const loadSFFormTimeout = setTimeout(loadSFForm, 5000);
         function loadSFForm() {
             clearTimeout(loadSFFormTimeout);
-            
+
             $Lightning.use("c:GenericEmbedFlowInExternalWebsitesApp", function () {
-                
-                // in the event that it's an anonymous user on the generic email preferences page
-                //let parameters = "flowName=" + flowName;
-                //if(urlParams.get('Token') != null){
-                    //parameters += "&Token=" + urlParams.get('Token');
-               // }
-                /*
-                if(urlParams.get('website') != null){
-                    parameters += "&website=" + urlParams.get('website');
-                }
-                if(urlParams.get('email') != null){
-                    parameters += "&email=" + urlParams.get('email');
-                }
-                */
-                
-                //for general form with no token
-                let parameters = "flowName=" + flowName;
-    
-            
+                const parameters = "flowName=" + flowName;
+
                 $Lightning.createComponent(
-                    "c:GenericEmbedFlowInExternalWebsites", 
-                    {"parameters" : parameters}, 
-                    "lightningLocator", 
+                    "c:GenericEmbedFlowInExternalWebsites",
+                    { "parameters": parameters },
+                    "lightningLocator",
                     function (cmp) { }
-                    );
-                    
-            }, 
-            
-            //'https://dohertyclinicaltrials--uat.sandbox.my.site.com/TestSite', 'authToken');
-            'https://dohertyclinicaltrials--uat.sandbox.my.site.com/TestSite', 'authToken');
-            
+                );
+            },
+            'https://dohertyclinicaltrials--uat.sandbox.my.site.com/TestSite', 
+            'authToken');
         }
     }
 </script>
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Test</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-  </body>
-</html>
