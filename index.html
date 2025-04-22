@@ -2,46 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SF Embedded Form</title>
+  <title>Salesforce Form</title>
 </head>
 <body>
 
-  <div id="lightningLocator"></div> <!-- required container -->
+  <div id="lightningLocator"></div>
 
   <script>
-    const loadSFScriptTimeout = setTimeout(loadSFScript, 1000);
-    function loadSFScript() {
-      clearTimeout(loadSFScriptTimeout);
-      let src = "https://dohertyclinicaltrials.my.salesforce-sites.com/lightning/lightning.out.js";
-      var sfs = document.createElement("script");
-      sfs.setAttribute("src", src);
-      document.body.appendChild(sfs);
-    }
-  </script>
-
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const flowName = "SF_Recruitment_Forms";
-
-    if (flowName) {
-      const loadSFFormTimeout = setTimeout(loadSFForm, 5000);
-      function loadSFForm() {
-        clearTimeout(loadSFFormTimeout);
-
+    // Dynamically load Salesforce script
+    const sfScript = document.createElement("script");
+    sfScript.src = "https://dohertyclinicaltrials.my.salesforce-sites.com/lightning/lightning.out.js";
+    sfScript.onload = function () {
+      // Once loaded, run the form logic
+      const flowName = "SF_Recruitment_Forms";
+      if (flowName) {
         $Lightning.use("c:GenericEmbedFlowInExternalWebsitesApp", function () {
-          let parameters = "flowName=" + flowName;
+          const parameters = "flowName=" + flowName;
 
           $Lightning.createComponent(
             "c:GenericEmbedFlowInExternalWebsites",
-            { "parameters": parameters },
+            { parameters: parameters },
             "lightningLocator",
             function (cmp) {}
           );
-        }, 
-        'https://dohertyclinicaltrials.my.site.com/externalforms/s/registeryourinterest', 
-        'authToken');
+        },
+        "https://dohertyclinicaltrials.my.site.com/externalforms/s/registeryourinterest",
+        "authToken");
       }
-    }
+    };
+    document.body.appendChild(sfScript);
   </script>
 
 </body>
