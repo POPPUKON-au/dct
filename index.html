@@ -12,7 +12,7 @@
     const loadSFScriptTimeout = setTimeout(loadSFScript, 1000);
     function loadSFScript() {
       clearTimeout(loadSFScriptTimeout);
-      let src = "https://dohertyclinicaltrials.my.salesforce-sites.com/lightning/lightning.out.js";
+      let src = "https://dohertyclinicaltrials.lightning.force.com";
       var sfs = document.createElement("script");
       sfs.setAttribute("src", src);
       document.body.appendChild(sfs);
