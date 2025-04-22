@@ -1,37 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Salesforce Form</title>
-</head>
-<body>
-
-  <div id="lightningLocator"></div>
-
-  <script>
-    // Dynamically load Salesforce script
-    const sfScript = document.createElement("script");
-    sfScript.src = "https://dohertyclinicaltrials.my.salesforce-sites.com/lightning/lightning.out.js";
-    sfScript.onload = function () {
-      // Once loaded, run the form logic
-      const flowName = "SF_Recruitment_Forms";
-      if (flowName) {
-        $Lightning.use("c:GenericEmbedFlowInExternalWebsitesApp", function () {
-          const parameters = "flowName=" + flowName;
-
-          $Lightning.createComponent(
-            "c:GenericEmbedFlowInExternalWebsites",
-            { parameters: parameters },
-            "lightningLocator",
-            function (cmp) {}
-          );
-        },
-        "https://dohertyclinicaltrials.my.site.com/externalforms/s/registeryourinterest",
-        "authToken");
-      }
-    };
-    document.body.appendChild(sfScript);
+<script>
+    const loadSFScriptTimeout = setTimeout(loadSFScript, 1000);
+    function loadSFScript() {
+        clearTimeout(loadSFScriptTimeout);
+        const hostname = window.location.hostname.toLowerCase();
+        //let src = "https://dohertyclinicaltrials--uat.sandbox.my.salesforce-sites.com/lightning/lightning.out.js";
+        
+        let src = "https://dohertyclinicaltrials.my.salesforce-sites.com/lightning/lightning.out.js";
+        
+        var sfs = document.createElement("script");
+        sfs.setAttribute("src", src);
+        document.body.appendChild(sfs);
+    }    
   </script>
+  
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const flowName = "SF_Recruitment_Forms"; 
+    
+    
+    if (flowName) {
+        const loadSFFormTimeout = setTimeout(loadSFForm, 5000);
+        function loadSFForm() {
+            clearTimeout(loadSFFormTimeout);
+            
+            $Lightning.use("c:GenericEmbedFlowInExternalWebsitesApp", function () {
+                
+                // in the event that it's an anonymous user on the generic email preferences page
+                //let parameters = "flowName=" + flowName;
+                //if(urlParams.get('Token') != null){
+                    //parameters += "&Token=" + urlParams.get('Token');
+               // }
+                /*
+                if(urlParams.get('website') != null){
+                    parameters += "&website=" + urlParams.get('website');
+                }
+                if(urlParams.get('email') != null){
+                    parameters += "&email=" + urlParams.get('email');
+                }
+                */
+                
+                //for general form with no token
+                let parameters = "flowName=" + flowName;
 
-</body>
-</html>
+                //for general form with token
+                //let parameters = "flowname=" + flowname + "&token=put token here";
+
+                //for HCT form without token
+                //let parameters = "flowname=" + flowname + "&type=HCT";
+
+                //for HCT with token
+                //let parameters = "flowname=" + flowname + "&token=put token here" + "&type=HCT";
+
+                //for FluCHIM without token
+                //let parameters = "flowname=" + flowname + "&type=FluCHIM";
+
+                //for FluCHIM with token
+                //let parameters = "flowname=" + flowname + "&token=put token here" + "&type=FluCHIM";
+
+                //for FA DTX without token
+                //let parameters = "flowname=" + flowname + "&type=FA_DTX";
+
+                //for FA DTX with token
+                //let parameters = "flowname=" + flowname + "&token=put token here" + "&type=FA_DTX";
+            
+               
+            
+                $Lightning.createComponent(
+                    "c:GenericEmbedFlowInExternalWebsites", 
+                    {"parameters" : parameters}, 
+                    "lightningLocator", 
+                    function (cmp) { }
+                    );
+                    
+            }, 
+            
+            //'https://dohertyclinicaltrials--uat.sandbox.my.site.com/TestSite', 'authToken');
+            'https://dohertyclinicaltrials.my.site.com/externalforms/s/registeryourinterest', 'authToken');
+            
+            
+        }
+    }
+</script>
+
