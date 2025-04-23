@@ -9,39 +9,29 @@
   <div id="lightningLocator"></div>
 
   <script>
-    const loadSFScriptTimeout = setTimeout(loadSFScript, 1000);
-    function loadSFScript() {
-      clearTimeout(loadSFScriptTimeout);
-      let src = "https://dohertyclinicaltrials.my.site.com/externalforms/lightning/lightning.out.js";
-      var sfs = document.createElement("script");
-      sfs.setAttribute("src", src);
-      document.body.appendChild(sfs);
-    }
-  </script>
-
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
     const flowName = "SF_Recruitment_Forms";
 
-    if (flowName) {
-      const loadSFFormTimeout = setTimeout(loadSFForm, 2000);
-      function loadSFForm() {
-        clearTimeout(loadSFFormTimeout);
+    const sfScript = document.createElement("script");
+    sfScript.src = "https://dohertyclinicaltrials.my.site.com/externalforms/lightning/lightning.out.js";
 
+    sfScript.onload = function () {
+      if (flowName) {
         $Lightning.use("c:GenericEmbedFlowInExternalWebsitesApp", function () {
-          let parameters = "flowName=" + flowName;
+          const parameters = "flowName=" + flowName;
 
           $Lightning.createComponent(
             "c:GenericEmbedFlowInExternalWebsites",
-            { "parameters": parameters },
+            { parameters: parameters },
             "lightningLocator",
             function (cmp) {}
           );
-        }, 
-        'https://dohertyclinicaltrials.my.site.com/externalforms', 
-        'authToken');
+        },
+        "https://dohertyclinicaltrials.my.site.com/externalforms",
+        "authToken");
       }
-    }
+    };
+
+    document.body.appendChild(sfScript);
   </script>
 
 </body>
